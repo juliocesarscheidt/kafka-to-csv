@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  kafka-csv:
+    container_name: kafka-csv
+    hostname: kafka-csv
+    image: juliocesarmidia/kafka-csv:latest
+    build:
+      context: ./src
+    environment:
+      BOOTSTRAP_SERVERS: ${BOOTSTRAP_SERVERS}
+      TOPIC_NAME: ${TOPIC_NAME}
+      PLAIN_USERNAME: ${PLAIN_USERNAME}
+      PLAIN_PASSWORD: ${PLAIN_PASSWORD}
+      LIMIT: ${LIMIT:-100}
+      TIMEOUT_MS: ${TIMEOUT_MS:-10000}
+      CSV_SEPARATOR: ${CSV_SEPARATOR:-,}
+    networks:
+      - subnet_0
+    restart: "no"
+    volumes:
+      - ./src:/usr/src/app
+
+networks:
+  subnet_0:
+    driver: bridge
