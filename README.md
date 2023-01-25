@@ -1,9 +1,21 @@
 # Kafka to CSV
 
 ```bash
-export BOOTSTRAP_SERVERS=''
+export BOOTSTRAP_SERVERS='127.0.0.1:9092'
 export TOPIC_NAME=''
 
+# produce some data
+declare -i counter
+while true; do
+  kafka-console-producer \
+    --broker-list 127.0.0.1:9092 \
+    --topic $TOPIC_NAME <<EOF
+  {"id": $counter, "firstname": "Julio", "lastname": "Cesar", "countrycode": "BR"}
+EOF
+  let "counter=counter+1"
+done
+
+# run
 docker-compose up -d --build
 docker-compose logs -f
 

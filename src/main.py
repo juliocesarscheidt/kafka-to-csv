@@ -8,7 +8,7 @@ from modules.kafka import Kafka
 from modules.utils import discovery_columns_from_data
 
 LIMIT=int(os.environ.get('TIMEOUT', '100'))
-TIMEOUT_MS=int(os.environ.get('TIMEOUT_MS', '10000'))
+TIMEOUT_MS=int(os.environ.get('TIMEOUT_MS', '10000')) # 10 secs poll
 CSV_SEPARATOR=os.environ.get('CSV_SEPARATOR', ',')
 
 def execute():
@@ -21,7 +21,7 @@ def execute():
   consumer = KafkaConsumer(
     conf['topic_name'],
     bootstrap_servers=conf['bootstrap_servers'],
-    auto_offset_reset='latest',
+    auto_offset_reset='earliest',
     enable_auto_commit=True,
     group_id='kafka-group',
     value_deserializer=lambda x: json.loads(x),
